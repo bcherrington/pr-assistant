@@ -15,3 +15,5 @@ description: "This rule provides a standardized documentation format and policy 
 - Provide docstrings for all public APIs (PEP 257 style) with type hints.
 - Update docs when changing public APIs or behavior; include examples where useful.
 - Cross‑refs: Link to Best Practices and Testing sections; ensure consistency with README/CONTRIBUTING.
+- Don't duplicate code in documentation, rather refer to the file location\
+- Use consistent formatting and style across all documentation files

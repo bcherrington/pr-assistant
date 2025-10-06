@@ -15,6 +15,8 @@ The simplest configuration that provides comprehensive PR analysis with default 
 - PR description summary
 - Recommended course of action
 
+**Trigger:** Automatically on PR open, update, or reopen
+
 **Use this when:**
 - You want to get started quickly
 - Default analysis is sufficient for your needs
@@ -32,19 +34,66 @@ Advanced configuration that includes project-specific guidelines and requirement
 - Performance considerations
 - Accessibility guidelines (for UI projects)
 
+**Trigger:** Automatically on PR open, update, or reopen
+
 **Use this when:**
 - You have specific coding standards or requirements
 - You need to enforce security policies
 - You have custom testing requirements
 - You want to guide the AI to focus on specific areas
 
+### 3. On-Demand PR Assistant (`pr-assistant-on-demand.yml`)
+
+Label-triggered workflow that runs the PR Assistant when you add a specific label to a PR.
+
+**Features:**
+- All features from the basic configuration
+- Triggered by adding the `auggie_review` label to a PR
+- Automatically removes the trigger label after processing
+- Adds `auto-reviewed` label to indicate completion
+- Can re-run on the same PR by re-adding the label
+
+**Trigger:** Adding the `auggie_review` label to a PR
+
+**Use this when:**
+- You want to review PRs selectively
+- You need to re-review a PR after changes
+- You want to test the assistant on specific PRs
+- You don't want automatic reviews on every PR
+- You're testing or debugging the action
+
 ## How to Use
+
+### For Automatic Workflows (Examples 1 & 2)
 
 1. Choose the example that best fits your needs
 2. Copy the workflow file to `.github/workflows/` in your repository
 3. Rename it as desired (e.g., `pr-assistant.yml`)
 4. Customize as needed for your project
 5. Ensure you have set up the `AUGMENT_SESSION_AUTH` secret in your repository settings
+6. The workflow will run automatically on PR events
+
+### For On-Demand Workflow (Example 3)
+
+1. Copy `pr-assistant-on-demand.yml` to `.github/workflows/` in your repository
+2. Ensure you have set up the `AUGMENT_SESSION_AUTH` secret
+3. Create the `auggie_review` label in your repository (if it doesn't exist):
+   - Go to **Issues** → **Labels** → **New label**
+   - Name: `auggie_review`
+   - Description: "Trigger PR Assistant review"
+   - Color: Choose any color you like
+4. To trigger a review on a PR:
+   - Open the PR you want to review
+   - Add the `auggie_review` label to the PR
+   - The workflow will run automatically
+   - The label will be removed and replaced with `auto-reviewed` when complete
+
+**Example use cases for on-demand:**
+- Re-review a PR after significant changes (just re-add the label)
+- Review older PRs that were created before the action was set up
+- Test the action on specific PRs
+- Selective reviews instead of reviewing every PR
+- Debug or troubleshoot the action
 
 ## Customization Tips
 

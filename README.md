@@ -100,6 +100,60 @@ You can provide custom guidelines specific to your project:
       - New features must include integration tests
 ```
 
+### On-Demand Reviews
+
+You can also trigger reviews on-demand by adding a label to a PR:
+
+```yaml
+name: On-Demand PR Assistant
+
+on:
+  pull_request:
+    types: [labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+
+jobs:
+  review:
+    if: github.event.label.name == 'auggie_review'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run PR Assistant
+        uses: bcherrington/pr-assistant@v1
+        with:
+          augment_session_auth: ${{ secrets.AUGMENT_SESSION_AUTH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pull_number: ${{ github.event.pull_request.number }}
+          repo_name: ${{ github.repository }}
+
+      - name: Remove trigger label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: 'auggie_review'
+            });
+
+      - name: Add completion label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['auto-reviewed']
+            });
+```
+
+**To use:** Add the `auggie_review` label to any PR to trigger a review
+
 ## Review Output
 
 The PR Assistant posts a single comprehensive review comment with:

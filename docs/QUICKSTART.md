@@ -90,6 +90,27 @@ Help improve the PR Assistant by reacting to comments:
 
 ## What's Next?
 
+### Run On-Demand Reviews
+
+Want to review PRs selectively instead of automatically? Use the on-demand workflow:
+
+1. Copy `example-workflows/pr-assistant-on-demand.yml` to `.github/workflows/`
+2. Create the `auggie_review` label in your repository:
+   - Go to **Issues** → **Labels** → **New label**
+   - Name: `auggie_review`
+   - Description: "Trigger PR Assistant review"
+3. To trigger a review:
+   - Open any PR
+   - Add the `auggie_review` label
+   - The review will run automatically
+   - The label will be removed and replaced with `auto-reviewed`
+
+**Use cases:**
+- Re-review a PR after changes (just re-add the label)
+- Review older PRs
+- Test on specific PRs
+- Selective reviews instead of every PR
+
 ### Add Custom Guidelines
 
 Customize the review to your project's needs:
