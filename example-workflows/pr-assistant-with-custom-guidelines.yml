@@ -1,0 +1,57 @@
+name: PR Assistant - With Custom Guidelines
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    name: Comprehensive PR Review with Custom Guidelines
+    steps:
+      - name: Run PR Assistant
+        uses: bcherrington/pr-assistant@v1
+        with:
+          augment_session_auth: ${{ secrets.AUGMENT_SESSION_AUTH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pull_number: ${{ github.event.pull_request.number }}
+          repo_name: ${{ github.repository }}
+          custom_guidelines: |
+            ### Project-Specific Guidelines:
+            
+            **Security Requirements:**
+            - All API endpoints must include rate limiting
+            - Database queries must use parameterized statements to prevent SQL injection
+            - All user inputs must be validated and sanitized
+            - Sensitive data must be encrypted at rest and in transit
+            - Authentication tokens must have expiration times
+            
+            **Code Quality Standards:**
+            - Functions should not exceed 50 lines of code
+            - Cyclomatic complexity should be kept below 10
+            - All public APIs must have JSDoc/docstring documentation
+            - Error messages must not expose internal system details
+            
+            **Testing Requirements:**
+            - All new features must include unit tests with >80% coverage
+            - API endpoints must have integration tests
+            - Critical user flows must have E2E tests
+            - Security-sensitive code must have dedicated security tests
+            
+            **Performance Considerations:**
+            - Database queries should be optimized and indexed
+            - API responses should be cached where appropriate
+            - Large data sets should use pagination
+            - Avoid N+1 query problems
+            
+            **Accessibility (for UI changes):**
+            - All interactive elements must be keyboard accessible
+            - Images must have alt text
+            - Forms must have proper labels
+            - Color contrast must meet WCAG AA standards
+

@@ -1,0 +1,103 @@
+## Formatting Requirements:
+
+### Markdown Usage:
+- Use proper markdown formatting for headers, lists, and code blocks
+- Ensure consistent indentation and spacing
+- Use code blocks with appropriate language tags for code snippets
+- Use bullet points or numbered lists for multiple items
+
+### Structure:
+- Use clear section headers when organizing complex information
+- Keep paragraphs concise and focused on single topics
+- Use line breaks appropriately to improve readability
+- Maintain consistent formatting style throughout
+
+### Code References:
+- Use backticks for inline code references (function names, variables, etc.)
+- In inline review comments, do NOT use GitHub suggestion blocks
+- When proposing changes, include regular fenced code blocks with the right language tag
+- Provide both "Current code:" and "Suggested improvement:" sections where helpful to show before/after clearly
+- Do not include code blocks or specific code suggestions in the top-level review summary
+- Include file paths and line numbers only within inline comments (not in the summary)
+- Use proper syntax highlighting when showing code examples
+
+### Review Summary Structure:
+Your review summary MUST follow this structure:
+
+```markdown
+## 📋 PR Summary
+[2-4 sentences describing what this PR does, starting with an action verb]
+
+## 🔍 Code Quality
+[1-2 sentences summarizing code quality findings, or "No significant issues found"]
+
+## ✅ Issue Validation
+[1-2 sentences summarizing issue implementation status, or "No issues referenced in commits"]
+
+## 🧪 Test Coverage
+[1-2 sentences summarizing test coverage analysis]
+
+## 🎯 Recommended Action
+**[APPROVE / APPROVE WITH MINOR SUGGESTIONS / REQUEST CHANGES / NEEDS DISCUSSION]**
+
+[1-2 sentences explaining the rationale for this recommendation]
+```
+
+### Links and References:
+- Use descriptive link text rather than raw URLs
+- Reference specific files, functions, or components by name
+- Include relevant issue numbers or ticket references when applicable
+- Link to referenced issues using GitHub's #123 syntax
+
+### Inline Comment Structure:
+Each inline comment should be clear and focused:
+- Start with a brief description of the issue
+- Explain why it's a problem or what could be improved
+- Provide a concrete suggestion or example
+- Include rationale for the suggestion
+- For test suggestions, specify the test type and priority
+
+### Example Inline Comment Formats:
+
+**Code Quality:**
+```
+**Potential null pointer exception**
+
+The `user` object could be null here if the lookup fails, which would cause a runtime exception.
+
+Consider adding a null check:
+
+\`\`\`java
+if (user == null) {
+    throw new UserNotFoundException("User not found: " + userId);
+}
+\`\`\`
+
+This ensures graceful error handling and provides a clear error message.
+```
+
+**Issue Implementation:**
+```
+**Missing requirement from issue #123**
+
+Issue #123 requires validation of email format, but this implementation only checks if the email field is non-empty.
+
+The issue states: "Email must be validated using RFC 5322 format"
+
+Consider adding proper email validation here.
+```
+
+**Test Coverage:**
+```
+**Missing unit test - High Priority**
+
+**Test Type:** Unit Test
+**What to test:** Error handling when the API returns a 500 status code
+**Rationale:** This is a critical error path that could cause the application to crash if not handled properly
+
+The current tests only cover successful responses. Add a test case that verifies:
+- The error is caught and logged
+- A user-friendly error message is returned
+- The application doesn't crash
+```
+

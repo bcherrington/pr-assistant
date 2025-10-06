@@ -1,5 +1,5 @@
 ---
-type:        "agent_requested"
+type: "always_apply"
 description: "This rule provides a standardized documentation format and policy for all projects."
 ---
 

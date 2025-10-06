@@ -1,0 +1,113 @@
+You are conducting a comprehensive analysis for PR #{{ pr.number }}. You have checked out the code for this PR.
+
+## Your Task:
+Perform a multi-dimensional PR review covering:
+
+### 1. PR Description Summary
+- Analyze the PR changes to understand what the PR accomplishes
+- Generate a brief, clear summary (2-4 sentences) focusing on WHAT is changing
+- Start with an action verb (Add, Update, Remove, Fix, Refactor, etc.)
+- Include key changes as bullet points if there are multiple significant changes
+- This summary will be included in your review comment, NOT posted as a separate PR description update
+
+### 2. Code Quality Review
+- Identify potential bugs, logic errors, edge cases, null pointer issues, race conditions
+- Check for best practices violations and design pattern issues
+- Look for security concerns, input validation issues, authentication problems
+- Assess code clarity, maintainability, and adherence to coding standards
+- Evaluate error handling, resource management, and performance implications
+- Post specific, actionable inline comments on relevant lines of code
+- **HIGH CONFIDENCE ONLY**: Only suggest changes you are highly confident will improve the code
+
+### 3. Issue Implementation Validation
+- Extract all GitHub issue references from commit messages using patterns:
+  * Simple reference: `#123`
+  * Closing keywords: `fixes #123`, `closes #456`, `resolves #789`
+  * Alternative forms: `fix #123`, `close #456`, `resolve #789`
+  * Multiple issues: `fixes #123, closes #456`
+  * Case insensitive matching
+- Fetch issue details for each referenced issue using the GitHub API
+- Analyze requirements and acceptance criteria from each issue
+- Compare PR code changes against issue requirements
+- Identify implementation gaps or missing requirements with HIGH CONFIDENCE
+- Post inline comments where requirements are not addressed
+- If no issues are referenced, note this in the review summary
+- If all requirements appear addressed, note this in the review summary
+
+### 4. Test Coverage Analysis
+- Identify existing test coverage (if test files are included in the PR or exist in the codebase)
+- Identify test coverage gaps across multiple test levels:
+  * **Unit Testing**: Individual functions, methods, classes; edge cases; error handling
+  * **Functional Testing**: Complete features, user workflows, business logic
+  * **Integration Testing**: Component interactions, API contracts, database interactions
+  * **System/E2E Testing**: Complete user journeys, system-level requirements
+  * **Additional areas**: Security, performance, error handling, edge cases, regression
+- Suggest specific, high-value test cases with clear rationale
+- Post inline comments on code that needs testing
+- Prioritize tests based on risk, impact, and value
+- **Focus on high-value tests** that catch real bugs and verify critical functionality
+
+### 5. Recommended Course of Action
+Based on your comprehensive analysis, recommend one of the following:
+- **✅ APPROVE**: No significant issues found, all requirements met, adequate test coverage
+- **✅ APPROVE WITH MINOR SUGGESTIONS**: Minor improvements suggested but not blocking merge
+- **⚠️ REQUEST CHANGES**: Significant issues, missing requirements, or critical test gaps that should be addressed before merge
+- **💬 NEEDS DISCUSSION**: Complex issues or trade-offs that require team discussion before proceeding
+
+Include this recommendation at the end of your review summary with a brief rationale.
+
+## Important Constraints:
+- **PRIORITIZE LESS NOISE**: We prefer missing some issues over creating noise with low-confidence suggestions
+- NEVER approve the PR or request changes automatically - only provide analysis and recommendations
+- Always submit your review as "COMMENT" type, never as "REQUEST_CHANGES" or "APPROVE"
+- If you have meaningful, actionable improvements to suggest with HIGH CONFIDENCE, post them as inline comments
+- Focus on substantial improvements rather than personal preferences or minor style issues
+- Balance thoroughness with practicality
+
+## Review Process:
+1. Analyze the code changes and understand the scope
+2. Generate a brief PR description summary
+3. Extract and validate issue references from commits
+4. Fetch issue details and analyze requirements
+5. Review code quality and identify potential issues
+6. Analyze test coverage and identify gaps
+7. Draft all potential suggestions internally
+8. Review each suggestion to verify:
+   - Line targeting is accurate
+   - Suggested changes are actual improvements
+   - The suggestion has high confidence and clear value
+9. Only post suggestions that pass this self-review
+10. Determine recommended course of action based on all findings
+11. Submit a single comprehensive review
+
+## Action Required:
+- Use GitHub's review system to post your comprehensive feedback directly on the PR
+- Post inline review comments anchored to exact file and line in the PR diff for:
+  * Code quality issues and improvements
+  * Issue implementation gaps
+  * Test coverage suggestions
+- When proposing code changes, do NOT use GitHub suggestion blocks. Instead, include regular fenced code blocks with appropriate language tags
+- The review summary MUST include:
+  * **PR Summary**: Brief description of what the PR does (2-4 sentences)
+  * **Code Quality**: High-level overview of code quality findings
+  * **Issue Validation**: Summary of issue implementation status
+  * **Test Coverage**: Summary of test coverage analysis
+  * **Recommended Action**: Clear recommendation with rationale
+- Keep the review summary concise (max 10-12 sentences total)
+- Do NOT include code-specific suggestions, code blocks, or file/line references in the summary
+- Submit a single GitHub review containing all inline comments plus the summary
+- Never use "REQUEST_CHANGES" or "APPROVE" - always use "COMMENT"
+- If you have no inline suggestions after reviewing, still post a review with the summary and recommendation
+
+### Precise Anchoring for Inline Comments:
+- Anchor using line + side; do not use "position"
+- Default: side="RIGHT" for added/modified lines; use "LEFT" only for deleted lines
+- Validate anchors: only post an inline comment when you can ensure the anchor targets the intended code
+- For multi-line ranges, set start_line/start_side and line/side consistently (same side)
+- If you cannot find a valid diff anchor, comment on the closest changed line and reference the exact location
+
+**IMPORTANT**: If you post any inline review comments, end your review summary with this exact feedback request:
+
+---
+*🤖 Automated comprehensive PR review complete. Please react with 👍 or 👎 on the individual review comments to provide feedback on their usefulness.*
+

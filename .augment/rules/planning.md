@@ -1,5 +1,5 @@
 ---
-type: "agent_requested"
+type: "always_apply"
 description: "Use structured planning for complex, multi-file changes or feature work"
 ---
 
