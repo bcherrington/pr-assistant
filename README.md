@@ -209,6 +209,18 @@ See the `example-workflows` directory for additional workflow examples and confi
 
 MIT License - see LICENSE file for details
 
+## Troubleshooting
+
+### IDE Warnings in action.yml
+
+If you see warnings about "undefined parameter" in your IDE when viewing `action.yml`, these are false positives. See [docs/IDE_WARNINGS.md](docs/IDE_WARNINGS.md) for a detailed explanation.
+
+### Common Issues
+
+- **No review posted**: Check the Actions tab for workflow logs and verify secrets are set correctly
+- **Permission errors**: Ensure the workflow has `pull-requests: write` and `issues: read` permissions
+- **Authentication errors**: Verify the `AUGMENT_SESSION_AUTH` secret is set correctly
+
 ## Support
 
 For issues, questions, or feature requests, please open an issue in this repository.

@@ -1,0 +1,106 @@
+name: Validate Action
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Action Configuration
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate action.yml
+        run: |
+          echo "Validating action.yml syntax..."
+          # Check if action.yml exists
+          if [ ! -f "action.yml" ]; then
+            echo "Error: action.yml not found"
+            exit 1
+          fi
+          
+          # Check if required fields are present
+          grep -q "name:" action.yml || { echo "Error: 'name' field missing"; exit 1; }
+          grep -q "description:" action.yml || { echo "Error: 'description' field missing"; exit 1; }
+          grep -q "runs:" action.yml || { echo "Error: 'runs' field missing"; exit 1; }
+          
+          echo "✓ action.yml validation passed"
+
+      - name: Validate templates
+        run: |
+          echo "Validating template structure..."
+          # Check if templates directory exists
+          if [ ! -d "templates" ]; then
+            echo "Error: templates directory not found"
+            exit 1
+          fi
+          
+          # Check for required template files
+          required_templates=(
+            "templates/prompt.njk"
+            "templates/capabilities/base.njk"
+            "templates/context/pr_or_issue.njk"
+            "templates/context/pr_details.njk"
+            "templates/formatting/base.njk"
+            "templates/guidelines/base.njk"
+            "templates/instructions/base.njk"
+            "templates/limitations/base.njk"
+            "templates/request/base.njk"
+          )
+          
+          for template in "${required_templates[@]}"; do
+            if [ ! -f "$template" ]; then
+              echo "Error: Required template $template not found"
+              exit 1
+            fi
+          done
+          
+          echo "✓ Template validation passed"
+
+      - name: Validate documentation
+        run: |
+          echo "Validating documentation..."
+          # Check for required documentation files
+          required_docs=(
+            "README.md"
+            "QUICKSTART.md"
+            "CONTRIBUTING.md"
+            "LICENSE"
+          )
+          
+          for doc in "${required_docs[@]}"; do
+            if [ ! -f "$doc" ]; then
+              echo "Error: Required documentation $doc not found"
+              exit 1
+            fi
+          done
+          
+          echo "✓ Documentation validation passed"
+
+      - name: Validate example workflows
+        run: |
+          echo "Validating example workflows..."
+          # Check if example-workflows directory exists
+          if [ ! -d "example-workflows" ]; then
+            echo "Error: example-workflows directory not found"
+            exit 1
+          fi
+          
+          # Check for at least one example workflow
+          if [ -z "$(ls -A example-workflows/*.yml 2>/dev/null)" ]; then
+            echo "Error: No example workflows found"
+            exit 1
+          fi
+          
+          echo "✓ Example workflows validation passed"
+
+      - name: Summary
+        run: |
+          echo "========================================="
+          echo "All validation checks passed! ✓"
+          echo "========================================="
+
